@@ -41,7 +41,7 @@ const Dashboard = () => {
           </div>
           <div className="stat-content">
             <h3>Subscription</h3>
-            <p className="stat-value">{user?.subscription_plan}</p>
+            <p className="stat-value">{user?.subscription_type}</p>
           </div>
         </div>
 
