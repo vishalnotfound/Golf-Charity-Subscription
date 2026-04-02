@@ -10,25 +10,39 @@ router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 @router.post("/signup", response_model=TokenResponse)
 def signup(req: SignupRequest, db: Session = Depends(get_db)):
-    existing = db.query(User).filter(User.email == req.email).first()
-    if existing:
-        raise HTTPException(status_code=400, detail="Email already registered")
+    print(f"DEBUG: Signup request received for {req.email}")
+    try:
+        print("DEBUG: Querying existing user...")
+        existing = db.query(User).filter(User.email == req.email).first()
+        print(f"DEBUG: Query complete. Existing: {'yes' if existing else 'no'}")
+        
+        if existing:
+            raise HTTPException(status_code=400, detail="Email already registered")
 
-    user = User(
-        name=req.name,
-        email=req.email,
-        password_hash=hash_password(req.password),
-        role="user",
-    )
-    db.add(user)
-    db.commit()
-    db.refresh(user)
+        print("DEBUG: Hashing password...")
+        user = User(
+            name=req.name,
+            email=req.email,
+            password_hash=hash_password(req.password),
+            role="user",
+        )
+        print("DEBUG: Adding user to DB...")
+        db.add(user)
+        print("DEBUG: Committing user to DB...")
+        db.commit()
+        print("DEBUG: Refreshing user data...")
+        db.refresh(user)
 
-    token = create_access_token(data={"sub": user.id})
-    return TokenResponse(
-        access_token=token,
-        user=UserResponse.model_validate(user),
-    )
+        print("DEBUG: Creating access token...")
+        token = create_access_token(data={"sub": user.id})
+        print("DEBUG: Signup successful!")
+        return TokenResponse(
+            access_token=token,
+            user=UserResponse.model_validate(user),
+        )
+    except Exception as e:
+        print(f"DEBUG ERROR during signup: {e}")
+        raise e
 
 
 @router.post("/login", response_model=TokenResponse)
