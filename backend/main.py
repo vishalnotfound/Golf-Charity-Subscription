@@ -11,6 +11,8 @@ from routers import auth_router, score_router, charity_router, draw_router, winn
 # Create tables
 Base.metadata.create_all(bind=engine)
 
+print("--- BACKEND SERVER INITIALIZING/RELOADING ---")
+
 app = FastAPI(title="Golf Charity Subscription Platform", version="1.0.0")
 
 # CORS Configuration
@@ -48,8 +50,8 @@ async def log_origin_middleware(request: Request, call_next):
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     origin = request.headers.get("origin")
-    allow_origin = origin if origin in origins else (FRONTEND_URL if FRONTEND_URL in origins else origins[0])
-    print(f"Global error: {exc}")
+    allow_origin = origin if origin in origins else origins[0]
+    
     return JSONResponse(
         status_code=500,
         content={"detail": "Internal Server Error", "error": str(exc)},

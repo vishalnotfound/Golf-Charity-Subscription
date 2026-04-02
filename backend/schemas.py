@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, ConfigDict
 from typing import Optional, List
 from datetime import datetime
 
@@ -9,14 +9,13 @@ class UserResponse(BaseModel):
     name: str
     email: str
     role: str
-    subscription_type: str
-    subscription_status: str
+    subscription_type: Optional[str] = "free"
+    subscription_status: Optional[str] = "inactive"
     charity_id: Optional[int] = None
-    charity_percentage: float
+    charity_percentage: Optional[float] = 0.0
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # ── Auth ─────────────────────────────────────────
@@ -36,6 +35,8 @@ class TokenResponse(BaseModel):
     token_type: str = "bearer"
     user: UserResponse
 
+    model_config = ConfigDict(from_attributes=True)
+
 
 class UserListResponse(BaseModel):
     id: int
@@ -46,8 +47,7 @@ class UserListResponse(BaseModel):
     subscription_status: str
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # ── Scores ───────────────────────────────────────
@@ -62,8 +62,7 @@ class ScoreResponse(BaseModel):
     date: datetime
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # ── Charity ──────────────────────────────────────
@@ -73,8 +72,7 @@ class CharityResponse(BaseModel):
     description: Optional[str] = None
     image: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class CharitySelectRequest(BaseModel):
@@ -96,8 +94,7 @@ class DrawResponse(BaseModel):
     status: str
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # ── Winner ───────────────────────────────────────
@@ -112,8 +109,7 @@ class WinnerResponse(BaseModel):
     user_name: Optional[str] = None
     user_email: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class WinnerStatusUpdate(BaseModel):
