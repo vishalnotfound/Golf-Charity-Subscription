@@ -82,3 +82,8 @@ def root():
     return {"message": "Golf Charity Subscription Platform API", "version": "1.0.0"}
 
 
+@app.get("/health")
+def health():
+    return {"status": "ok", "timestamp": "2026-04-02T12:29:41Z", "note": "Reload Verification"}
+
+
