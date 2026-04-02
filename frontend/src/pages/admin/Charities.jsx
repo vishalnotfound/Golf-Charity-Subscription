@@ -14,7 +14,7 @@ const Charities = () => {
 
   const fetchCharities = async () => {
     try {
-      const res = await api.get('/charity/');
+      const res = await api.get('/charities');
       setCharities(res.data);
     } catch(err) {
       console.error(err);
@@ -24,7 +24,7 @@ const Charities = () => {
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
-      await api.post('/charity/', { name, description: desc, website_url: url });
+      await api.post('/admin/charities', { name, description: desc, image: url });
       setName(''); setDesc(''); setUrl('');
       fetchCharities();
     } catch (err) {

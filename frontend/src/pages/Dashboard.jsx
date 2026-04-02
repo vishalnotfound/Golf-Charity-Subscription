@@ -13,8 +13,8 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const scoresRes = await api.get('/scores/my-scores');
-        const winsRes = await api.get('/winners/my-wins');
+        const scoresRes = await api.get('/scores');
+        const winsRes = await api.get('/winnings');
         
         setStats({
           scores: scoresRes.data.length,

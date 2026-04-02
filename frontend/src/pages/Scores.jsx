@@ -14,7 +14,7 @@ const Scores = () => {
 
   const fetchScores = async () => {
     try {
-      const res = await api.get('/scores/my-scores');
+      const res = await api.get('/scores');
       setScores(res.data);
     } catch (err) {
       console.error(err);
@@ -33,7 +33,7 @@ const Scores = () => {
     }
 
     try {
-      await api.post('/scores/', { points: scoreVal });
+      await api.post('/scores', { score: parseInt(scoreVal, 10), date: new Date().toISOString() });
       setSuccess('Score logged successfully!');
       setNewScore('');
       fetchScores();

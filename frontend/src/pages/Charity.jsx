@@ -16,7 +16,7 @@ const Charity = () => {
 
   const fetchCharities = async () => {
     try {
-      const res = await api.get('/charity/');
+      const res = await api.get('/charities');
       setCharities(res.data);
     } catch (err) {
       console.error(err);

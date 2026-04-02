@@ -11,7 +11,7 @@ const Winnings = () => {
 
   const fetchWinnings = async () => {
     try {
-      const res = await api.get('/winners/my-wins');
+      const res = await api.get('/winnings');
       setWinnings(res.data);
     } catch (err) {
       console.error(err);

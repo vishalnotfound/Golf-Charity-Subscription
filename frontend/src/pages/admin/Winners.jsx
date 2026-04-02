@@ -12,7 +12,7 @@ const Winners = () => {
 
   const fetchWinners = async () => {
     try {
-      const res = await api.get('/winners/all');
+      const res = await api.get('/admin/winners');
       setWinners(res.data);
     } catch (err) {
       console.error(err);
