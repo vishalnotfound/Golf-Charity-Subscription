@@ -20,7 +20,7 @@ def get_cors_headers(request: Request):
     }
 
 
-@router.post("/signup")
+@router.post("/signup_v2")
 def signup(request: Request, req: SignupRequest, db: Session = Depends(get_db)):
     existing = db.query(User).filter(User.email == req.email).first()
     if existing:
