@@ -37,3 +37,5 @@ app.include_router(admin_router.router)
 @app.get("/")
 def root():
     return {"message": "Golf Charity Subscription Platform API", "version": "1.0.0"}
+
+
