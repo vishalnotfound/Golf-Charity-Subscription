@@ -3,6 +3,22 @@ from typing import Optional, List
 from datetime import datetime
 
 
+# ── User ─────────────────────────────────────────
+class UserResponse(BaseModel):
+    id: int
+    name: str
+    email: str
+    role: str
+    subscription_type: str
+    subscription_status: str
+    charity_id: Optional[int] = None
+    charity_percentage: float
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
 # ── Auth ─────────────────────────────────────────
 class SignupRequest(BaseModel):
     name: str = Field(..., min_length=1, max_length=100)
@@ -18,23 +34,7 @@ class LoginRequest(BaseModel):
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
-    user: "UserResponse"
-
-
-# ── User ─────────────────────────────────────────
-class UserResponse(BaseModel):
-    id: int
-    name: str
-    email: str
-    role: str
-    subscription_type: str
-    subscription_status: str
-    charity_id: Optional[int] = None
-    charity_percentage: float
-    created_at: datetime
-
-    class Config:
-        from_attributes = True
+    user: UserResponse
 
 
 class UserListResponse(BaseModel):

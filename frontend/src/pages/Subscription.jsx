@@ -20,7 +20,7 @@ const Subscription = () => {
     setError(null);
     setSuccess(null);
     try {
-      await api.put('/subscription/', { plan: planId });
+      await api.put('/subscription', { subscription_type: planId });
       setSuccess(`Successfully subscribed to ${planId} plan!`);
       setTimeout(() => window.location.reload(), 2000); // Reload to update user context
     } catch (err) {
