@@ -38,7 +38,12 @@ const Scores = () => {
       setNewScore('');
       fetchScores();
     } catch (err) {
-      setError(err.response?.data?.detail || 'Failed to log score');
+      const detail = err.response?.data?.detail;
+      if (Array.isArray(detail)) {
+        setError(detail[0].msg);
+      } else {
+        setError(detail || 'Failed to log score');
+      }
     }
   };
 

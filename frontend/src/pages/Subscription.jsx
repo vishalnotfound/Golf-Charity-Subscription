@@ -24,7 +24,12 @@ const Subscription = () => {
       setSuccess(`Successfully subscribed to ${planId} plan!`);
       setTimeout(() => window.location.reload(), 2000); // Reload to update user context
     } catch (err) {
-      setError(err.response?.data?.detail || 'Failed to update subscription');
+      const detail = err.response?.data?.detail;
+      if (Array.isArray(detail)) {
+        setError(detail[0].msg);
+      } else {
+        setError(detail || 'Failed to update subscription');
+      }
     } finally {
       setLoading(false);
     }

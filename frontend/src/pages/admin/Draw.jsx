@@ -15,7 +15,12 @@ const Draw = () => {
       const res = await api.post('/draw/run');
       setResult(res.data);
     } catch (err) {
-      setError(err.response?.data?.detail || 'Failed to run draw');
+      const detail = err.response?.data?.detail;
+      if (Array.isArray(detail)) {
+        setError(detail[0].msg);
+      } else {
+        setError(detail || 'Failed to run draw');
+      }
     } finally {
       setLoading(false);
     }

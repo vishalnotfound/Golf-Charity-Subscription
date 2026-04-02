@@ -16,7 +16,12 @@ const Signup = () => {
       await signup(email, name, password);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.detail || 'Failed to create account');
+      const detail = err.response?.data?.detail;
+      if (Array.isArray(detail)) {
+        setError(detail[0].msg);
+      } else {
+        setError(detail || 'Failed to create account');
+      }
     }
   };
 
