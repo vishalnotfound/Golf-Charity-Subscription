@@ -1,7 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import os
+import logging
 from config import FRONTEND_URL
 from database import engine, Base
 from routers import auth_router, score_router, charity_router, draw_router, winner_router, admin_router
@@ -16,8 +18,10 @@ origins = [
     FRONTEND_URL,
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "http://[::1]:5173",
     "http://localhost:5174",
     "http://127.0.0.1:5174",
+    "http://[::1]:5174",
 ]
 
 # Add variants with trailing slashes
@@ -31,6 +35,31 @@ app.add_middleware(
     allow_headers=["*"],
     expose_headers=["*"]
 )
+
+# Custom Logging Middleware for debugging CORS/Origins
+@app.middleware("http")
+async def log_origin_middleware(request: Request, call_next):
+    origin = request.headers.get("origin")
+    print(f"Incoming Request: {request.method} {request.url.path} from Origin: {origin}")
+    response = await call_next(request)
+    return response
+
+# Custom Exception Handler to ensure CORS headers on error
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    origin = request.headers.get("origin")
+    allow_origin = origin if origin in origins else (FRONTEND_URL if FRONTEND_URL in origins else origins[0])
+    print(f"Global error: {exc}")
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "Internal Server Error", "error": str(exc)},
+        headers={
+            "Access-Control-Allow-Origin": allow_origin,
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Methods": "*",
+            "Access-Control-Allow-Credentials": "true",
+        }
+    )
 
 # Serve uploaded files
 uploads_dir = os.path.join(os.path.dirname(__file__), "uploads")
