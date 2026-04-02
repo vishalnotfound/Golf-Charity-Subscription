@@ -1,22 +1,15 @@
-import React from 'react';
-import { Sidebar } from 'lucide-react';
+import { Outlet } from 'react-router-dom';
+import Sidebar from './Sidebar';
 
-const DefaultLayout = ({ children }) => {
+const Layout = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Sidebar for Desktop */}
-      <div className="hidden md:block">
-        {/* Assumes Sidebar is mounted via Route hierarchy, but we can just use Outlet here */}
-      </div>
-      
-      {/* Main Content Area */}
-      <div className="md:pl-64 flex flex-col flex-1 min-h-screen">
-        <main className="flex-1 p-6 md:p-8 w-full max-w-6xl mx-auto">
-          {children}
-        </main>
-      </div>
+    <div className="app-layout">
+      <Sidebar />
+      <main className="main-content">
+        <Outlet />
+      </main>
     </div>
   );
 };
 
-export default DefaultLayout;
+export default Layout;
