@@ -28,28 +28,15 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const formData = new URLSearchParams();
-    formData.append('username', email); // FastAPI OAuth2PasswordRequestForm expects username
-    formData.append('password', password);
-
-    const res = await api.post('/auth/login', formData, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    });
+    const res = await api.post('/auth/login', { email, password });
     localStorage.setItem('token', res.data.access_token);
-    
-    // Fetch user details
-    const userRes = await api.get('/auth/me');
-    setUser(userRes.data);
+    setUser(res.data.user);
   };
 
   const signup = async (email, name, password) => {
     const res = await api.post('/auth/signup', { email, name, password });
     localStorage.setItem('token', res.data.access_token);
-    
-    const userRes = await api.get('/auth/me');
-    setUser(userRes.data);
+    setUser(res.data.user);
   };
 
   const logout = () => {
