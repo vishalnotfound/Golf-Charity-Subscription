@@ -10,7 +10,7 @@ from datetime import datetime
 def debug_pydantic():
     print("Testing Pydantic validation for TokenResponse...")
     
-    # Mock data that mimics a newly created User SQLAlchemy object
+    # Mock data that mimics a newly created User SQLAlchemy obj
     class MockUser:
         def __init__(self):
             self.id = 1
