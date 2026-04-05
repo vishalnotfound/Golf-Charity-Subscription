@@ -114,3 +114,11 @@ class WinnerResponse(BaseModel):
 
 class WinnerStatusUpdate(BaseModel):
     status: str = Field(..., pattern="^(pending|approved|paid)$")
+
+
+# ── Admin Stats ──────────────────────────────────
+class AdminStatsResponse(BaseModel):
+    total_users: int
+    active_subscribers: int
+    pending_winners: int
+    total_charities: int

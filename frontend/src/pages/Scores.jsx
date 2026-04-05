@@ -88,11 +88,11 @@ const Scores = () => {
               scores.slice(0, 5).map(score => (
                 <div key={score.id} className="score-item">
                   <div className="score-points">
-                    <span className="points-val">{score.points}</span>
+                    <span className="points-val">{score.score}</span>
                     <span className="points-label">pts</span>
                   </div>
                   <div className="score-date">
-                    {new Date(score.timestamp).toLocaleDateString()}
+                    {new Date(score.date).toLocaleDateString()}
                   </div>
                 </div>
               ))
