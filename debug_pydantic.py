@@ -40,5 +40,5 @@ def debug_pydantic():
         print(f"FAILED 2: {e}")
 
 if __name__ == "__main__":
-    #start debug
+    #start debugging
     debug_pydantic()
